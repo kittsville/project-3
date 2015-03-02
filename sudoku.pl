@@ -1,4 +1,6 @@
 :- use_module(library(clpfd)).
+:- use_module(library(http/thread_httpd)).
+:- use_module(library(http/http_dispatch)).
  
 sudoku(Rows) :- 
   append(Rows, Vs), Vs ins 1..9,
@@ -23,3 +25,12 @@ problem(1, [[_,_,_,_,_,_,_,_,_],
             [5,_,_,_,_,_,_,7,3],
             [_,_,2,_,1,_,_,_,_],
             [_,_,_,_,4,_,_,_,9]]).
+
+server(Port) :-
+        http_server(http_dispatch, [port(Port)]).
+		
+:- http_handler(/, say_hi, []).
+
+say_hi(_Request) :-
+        format('Content-type: text/plain~n~n'),
+        format('Hello World!~n').
