@@ -69,6 +69,90 @@ function generateGrid( sGrid ) {
 	}));
 }
 
+var cursorPos = 0;
+
 $(function() {
 	generateGrid();
+	
+	// Allows for keyboard navigation across the Sudoku grid
+	$('div#sudoku-grid').on('keyup', 'input', function(e) {
+		// Selects current input and its parent row
+		input	= $(e.target);
+		row		= input.parent().parent();
+		
+		// Gets ID of current input and parent row
+		inputId	= e.target.id;
+		rowId	= row.attr('id');
+		
+		oldCursorPost = cursorPos;
+		cursorPos = input.getCursorPosition();
+		console.log(oldCursorPost, cursorPos);
+		
+		// If keyboard input is an arrow key
+		if ( $.inArray(e.which, [37,38,39,40]) != -1 ) {
+			switch(e.which){
+				// Left Arrow
+				case 37:
+					// If user is not at the end of the input text, does not skip to the next input
+					if (cursorPos != oldCursorPost) {
+						return;
+					}
+					
+					// If current input is the further left, wrap around to furthest right
+					if ( inputId == '1' ) {
+						nextInputId = 9;
+					} else {
+						nextInputId = parseInt(inputId) - 1;
+					}
+					
+					newInput = row.find('td input#'+nextInputId);
+				break;
+				
+				// Up Arrow
+				case 38:
+					// If current input is the highest, wrap around to lowest
+					if ( rowId == '1' ) {
+						nextRowId = 9;
+					} else {
+						nextRowId = parseInt(rowId) - 1;
+					}
+					
+					newInput = row.siblings('tr#'+nextRowId).find('td input#'+inputId);
+				break;
+				
+				// Right Arrow
+				case 39:
+					// If user is not at the end of the input text, does not skip to the next input
+					if (cursorPos != oldCursorPost) {
+						return;
+					}
+					
+					// If current input is the further left, wrap around to furthest right
+					if ( inputId == '9' ) {
+						nextInputId = 1;
+					} else {
+						nextInputId = parseInt(inputId) + 1;
+					}
+					
+					newInput = row.find('td input#'+nextInputId);
+				break;
+				
+				// Down Arrow
+				case 40:
+					// If current input is the lowest, wrap around to highest
+					if ( rowId == '9' ) {
+						nextRowId = 1;
+					} else {
+						nextRowId = parseInt(rowId) + 1;
+					}
+					
+					newInput = row.siblings('tr#'+nextRowId).find('td input#'+inputId);
+				break;
+			}
+			newInput.focus();
+			
+			// Updates cursor position after changes to selected input
+			cursorPos = newInput.getCursorPosition();
+		}
+	});
 });
