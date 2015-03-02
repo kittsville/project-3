@@ -153,5 +153,44 @@ $(function() {
 			// Updates cursor position after changes to selected input
 			cursorPos = newInput.getCursorPosition();
 		}
+		
+		return false;
 	});
+	
+	// Parses Sudoku grid, sends to server then renders returned completed grid
+	$('a#solve').click(function(){
+		sGrid = [];
+		
+		// Iterates over rows, parsing user input
+		$.each($('div#sudoku-grid tr'), function(i, row) {
+			sRow = [];
+			
+			$.each($(row).find('input'), function(j, element) {
+				eValue = parseInt(element.value)
+				
+				// If input is not a valid sudoku input (1-9 int), clear input field
+				sRow.push(isNaN(eValue) || eValue > 9 || eValue < 1 ? 0 : eValue);
+			});
+			
+			sGrid.push(sRow);
+		});
+		
+		// Sends grid to server
+		$.post({
+			data		: sGrid,
+			dataType	: 'json'
+		}).success(function(data){
+			// If request succeeds, renders grid using returned array
+			if (data instanceof Array){
+				generateGrid(data);
+			} else {
+				// If server could not find a solution, informs user
+				alert('No solution found');
+			}
+		}).fail(function(){
+			alert('AJAX request failed');
+		});
+		
+		return false;
+	})
 });
