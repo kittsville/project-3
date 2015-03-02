@@ -86,7 +86,6 @@ $(function() {
 		
 		oldCursorPost = cursorPos;
 		cursorPos = input.getCursorPosition();
-		console.log(oldCursorPost, cursorPos);
 		
 		// If keyboard input is an arrow key
 		if ( $.inArray(e.which, [37,38,39,40]) != -1 ) {
