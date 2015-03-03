@@ -19,7 +19,7 @@ $.fn.getCursorPosition = function() {
 
 /**
  * Renders a Sudoku grid to the page. Grid is empty if no fields are passed to it
- * @param Array sGrid OPTIONAL Array of arrays representing the grid. Denote empty fields with ''
+ * @param Array sGrid OPTIONAL Array of arrays representing the grid. Denote empty fields with 0 (will be rendered as '')
  */
 function generateGrid( sGrid ) {
 	// Generates a blank grid if a valid grid wasn't given
@@ -30,7 +30,7 @@ function generateGrid( sGrid ) {
 			row = [];
 			
 			for (j = 0; j < 9; j++) {
-				row.push('');
+				row.push(0);
 			}
 			
 			sGrid.push(row);
@@ -52,7 +52,8 @@ function generateGrid( sGrid ) {
 					'type'			: 'text',
 					'maxlength'		: '1',
 					'autocomplete'	: 'off',
-					'id'			: j
+					'id'			: j,
+					'value'			: sGrid[i-1][j-1] === 0 ? '' : sGrid[i-1][j-1]
 				})
 			}));
 		}
@@ -157,6 +158,35 @@ $(function() {
 		return false;
 	});
 	
+	// Creates sudoku puzzle based on chosen difficulty
+	$('div#difficulty-buttons button').click(function(e){
+		// Chooses puzzles based on difficulty level selected
+		switch (e.target.id) {
+			case 'easy':
+				puzzles = easyPuzzles;
+			break;
+			
+			case 'medium':
+				puzzles = mediumPuzzles;
+			break;
+			
+			case 'hard':
+				puzzles = hardPuzzles;
+			break;
+			
+			case 'custom':
+				puzzles = [];
+			break;
+			
+			default:
+				alert('How did I get here?');
+				return false;
+		}
+		
+		// Randomly chooses a puzzle from selection given
+		generateGrid(puzzles[Math.floor(Math.random() * puzzles.length)]);
+	});
+	
 	// Parses Sudoku grid, sends to server then renders returned completed grid
 	$('a#solve').click(function(){
 		sGrid = [];
@@ -192,5 +222,5 @@ $(function() {
 		});
 		
 		return false;
-	})
+	});
 });
