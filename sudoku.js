@@ -206,8 +206,10 @@ $(function() {
 		});
 		
 		// Sends grid to server
-		$.post({
-			data		: sGrid,
+		$.ajax({
+			type		: 'POST',
+			url			: '/solve',
+			data		: { data: sGrid },
 			dataType	: 'json'
 		}).success(function(data){
 			// If request succeeds, renders grid using returned array
