@@ -1,7 +1,12 @@
 :- use_module(library(clpfd)).
 :- use_module(library(http/thread_httpd)).
 :- use_module(library(http/http_dispatch)).
- 
+:- use_module(library(http/http_header)).
+:- use_module(library(http/http_client)).
+:- use_module(library(http/http_json.pl)).
+:- use_module(library(json.pl)).
+:- use_module(library(json_convert.pl)).
+
 sudoku(Rows) :- 
   append(Rows, Vs), Vs ins 1..9,
   maplist(all_distinct, Rows),
@@ -33,8 +38,10 @@ server(Port) :-
 :- http_handler('/sudoku.css', http_reply_file('sudoku.css', []), []).
 :- http_handler('/sudoku.js', http_reply_file('sudoku.js', []),[]).
 :- http_handler('/puzzles.js', http_reply_file('puzzles.js', []),[]).
-:- http_handler('scripts/sudoku.js', http_reply_file('sudoku.js', []),[]).
-:- http_handler('scripts/puzzles.js', http_reply_file('puzzles.js', []),[]).
-output(_Request) :-
-        format('Content-type: text/html~n~n'),
-        format('Hello World!~n').
+:- http_post('/', json(Request), handle(Request), []).
+handle(Request) :-
+    http_read_json(Request, JSONIn),
+    json_to_prolog(JSONIn, PrologIn),
+    sudoku(PrologIn, PrologOut),
+    prolog_to_json(PrologOut, JSONOut),
+    reply_json(JSONOut).
