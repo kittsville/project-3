@@ -37,7 +37,7 @@ server(Port) :-
 :- http_handler('/sudoku.css', http_reply_file('sudoku.css', []), []).
 :- http_handler('/sudoku.js', http_reply_file('sudoku.js', []),[]).
 :- http_handler('/puzzles.js', http_reply_file('puzzles.js', []),[]).
-:- http_post('/', json, reply, []).
+:- http_post('localhost:3000/', json([]), reply, []).
 reply(Request) :-
     http_read_json(Request, JSONIn),
     json_to_prolog(JSONIn, PrologIn),
