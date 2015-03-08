@@ -32,17 +32,18 @@ problem(1, [[_,_,_,_,_,_,_,_,_],
 
 server(Port) :-
         http_server(http_dispatch, [port(Port)]).
-		
-:- http_handler('/', http_reply_file('home.html', []),[]).
-:- http_handler('/sudoku.css', http_reply_file('sudoku.css', []), []).
-:- http_handler('/sudoku.js', http_reply_file('sudoku.js', []),[]).
-:- http_handler('/puzzles.js', http_reply_file('puzzles.js', []),[]).
-:- http_post('localhost:3000/solve', json([]), reply, []).
+
 reply(Request) :-
     http_read_json(Request, JSONIn),
     json_to_prolog(JSONIn, PrologIn),
     sudoku(PrologIn, PrologOut),
     prolog_to_json(PrologOut, JSONOut),
-    reply_json(JSONOut).
+    reply_json('derp').
+		
+:- http_handler('/', http_reply_file('home.html', []),[]).
+:- http_handler('/sudoku.css', http_reply_file('sudoku.css', []), []).
+:- http_handler('/sudoku.js', http_reply_file('sudoku.js', []),[]).
+:- http_handler('/puzzles.js', http_reply_file('puzzles.js', []),[]).
+:- http_handler('/solve', reply,[]).
 
 
