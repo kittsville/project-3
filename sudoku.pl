@@ -33,6 +33,8 @@ server(Port) :-
 :- http_handler('/sudoku.css', http_reply_file('sudoku.css', []), []).
 :- http_handler('/sudoku.js', http_reply_file('sudoku.js', []),[]).
 :- http_handler('/puzzles.js', http_reply_file('puzzles.js', []),[]).
+:- http_handler('scripts/sudoku.js', http_reply_file('sudoku.js', []),[]).
+:- http_handler('scripts/puzzles.js', http_reply_file('puzzles.js', []),[]).
 output(_Request) :-
         format('Content-type: text/html~n~n'),
         format('Hello World!~n').
