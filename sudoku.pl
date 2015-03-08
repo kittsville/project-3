@@ -29,8 +29,10 @@ problem(1, [[_,_,_,_,_,_,_,_,_],
 server(Port) :-
         http_server(http_dispatch, [port(Port)]).
 		
-:- http_handler(/, say_hi, []).
-
-say_hi(_Request) :-
-        format('Content-type: text/plain~n~n'),
+:- http_handler('/', http_reply_file('home.html', []),[]).
+:- http_handler('/sudoku.css', http_reply_file('sudoku.css', []), []).
+:- http_handler('/sudoku.js', http_reply_file('sudoku.js', []),[]).
+:- http_handler('/puzzles.js', http_reply_file('puzzles.js', []),[]).
+output(_Request) :-
+        format('Content-type: text/html~n~n'),
         format('Hello World!~n').

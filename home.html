@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<!-- Based on a template by Mdo -->
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Sudoku Solver</title>
+		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="../sudoku.css">
+        <script type='text/javascript' src='../sudoku.js' > </script>
+        <script type='text/javascript' src='../puzzles.js' > </script>
+	</head>
+	<body>
+		<div class="site-wrapper">
+			<div class="site-wrapper-inner">
+				<div class="cover-container">
+					<div class="inner cover">
+						<h1>Sudoku Solver</h1>
+						<p class="lead">Enter your sudoku puzzle or choose an existing puzzle from our library</p>
+						<div id="difficulty-buttons" class="btn-group btn-group-lg" role="group" aria-label="...">
+							<button id="easy" type="button" class="btn btn-success">Easy</button>
+							<button id="medium" type="button" class="btn btn-warning">Medium</button>
+							<button id="hard" type="button" class="btn btn-danger">Hard</button>
+							<button id="custom" type="button" class="btn btn-primary">Custom</button>
+						</div>
+						<div id="sudoku-grid"></div>
+						<p class="lead">
+							<a id="solve" class="btn btn-lg btn-default">Solve</a>
+						</p>
+					</div>
+
+					<div class="mastfoot">
+						<div class="inner">
+							<p>Project 3 for CS2510. HTML template by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Loaded at end of page for faster page load -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+		<script src="../scripts/sudoku.js"></script>
+		<script src="../scripts/puzzles.js"></script>
+	</body>
+</html>
