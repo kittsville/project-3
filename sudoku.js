@@ -210,6 +210,7 @@ $(function() {
 			type		: 'POST',
 			url			: '/solve',
 			data		: { data: sGrid },
+			contentType	: "application/json",
 			dataType	: 'json'
 		}).success(function(data){
 			// If request succeeds, renders grid using returned array
