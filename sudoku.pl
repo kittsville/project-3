@@ -35,6 +35,7 @@ server(Port) :-
 
 reply(Request) :-
     http_read_json(Request, JSONIn),
+	print_message(debug, JSONIn),
     json_to_prolog(JSONIn, PrologIn),
     sudoku(PrologIn, PrologOut),
     prolog_to_json(PrologOut, JSONOut),

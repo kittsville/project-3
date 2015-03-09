@@ -210,7 +210,7 @@ $(function() {
 			type		: 'POST',
 			url			: '/solve',
 			data		: { data: sGrid },
-			contentType	: "application/json",
+			contentType	: 'application/json',
 			dataType	: 'json'
 		}).success(function(data){
 			// If request succeeds, renders grid using returned array
@@ -220,8 +220,8 @@ $(function() {
 				// If server could not find a solution, informs user
 				alert('No solution found');
 			}
-		}).fail(function(){
-			alert('AJAX request failed');
+		}).fail(function(data){
+			console.log('AJAX request failed');
 		});
 		
 		return false;
